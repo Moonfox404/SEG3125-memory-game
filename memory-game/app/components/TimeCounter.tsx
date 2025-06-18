@@ -9,20 +9,21 @@ type TimeCounterProps = {
 
 const TimeCounter = ({ running, setTime }: TimeCounterProps) => {
   const [elapsedTime, setElapsedTime] = useState(0);
+  const timeoutId = useRef<NodeJS.Timeout | undefined>(undefined);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout | undefined;
-
     if (running) {
-      timeoutId = setTimeout(() => {
+      
+      timeoutId.current = setTimeout(() => {
         setElapsedTime(elapsedTime + 1);
         if (setTime) {
           setTime(elapsedTime + 1);
         }
       }, 1000);
-    } 
 
-    return () => {clearTimeout(timeoutId);}
+    } else {
+      clearTimeout(timeoutId.current);
+    }
   }, [elapsedTime]);
 
   const minutes = Math.floor(elapsedTime / 60);
