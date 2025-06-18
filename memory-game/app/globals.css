@@ -6,7 +6,9 @@
   default: true;
   --color-primary: #04388D;
   --color-primary-content: #EDEFF7;
-  --color-base: #EDEFF7;
+  --color-base-100: #EDEFF7;
+  --color-base-200: #E7ECFF;
+  --color-base-300: #E0E6FB;
   --color-base-content: #1F272E;
   --color-highlight: rgba(166, 182, 255, 0.3);
 }
@@ -16,27 +18,22 @@
   prefersdark: true;
   --color-primary: #A6B6FF;
   --color-primary-content: #1F272E;
-  --color-base: #1F272E;
+  --color-base-100: #1F272E;
+  --color-base-200: #232E38;
+  --color-base-300: #273643;
   --color-base-content: #EDEFF7;
   --color-highlight: rgba(4, 56, 141, 0.3);
 }
 
 /* uncomment this when we implement dark mode toggle */
-/* @custom-variant dark (&:where(.dark, .dark *)); */
-
-:root {
-  --background: var(--color-base);
-  --foreground: var(--color-base-content);
-}
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--color-base-100);
+  --color-foreground: var(--color-base-content);
   --font-sans: var(--font-exo);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
