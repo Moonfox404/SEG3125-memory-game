@@ -1,5 +1,6 @@
 import { faCircleQuestion, faGear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ThemeToggle from "./ThemeToggle";
 
 const NavBar = () => {
   return (
@@ -10,12 +11,9 @@ const NavBar = () => {
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
-            <li>
+            <li className="">
               {/* replace with Theme toggle here */}
-              <input
-                type="checkbox"
-                className="toggle border-primary-600 bg-primary-500 checked:border-dark:primary-500 checked:bg-dark:primary-400 checked:text-dark:primary-800"
-              />
+              <ThemeToggle />
             </li>
             <li>
               <a>
