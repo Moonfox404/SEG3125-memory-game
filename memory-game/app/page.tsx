@@ -3,6 +3,7 @@
 import { useState } from "react";
 import GameMenu from "./components/GameMenu";
 import NavBar from "./components/NavBar";
+import GameBar from "./components/GameBar";
 
 export default function Home() {
   const [boardSize, setBoardSize] = useState<"Small" | "Medium" | "Large">(
@@ -26,6 +27,10 @@ export default function Home() {
             setGameTheme={(theme) => setGameTheme(theme)}
             setSwapsPerTurn={(num) => setSwapsPerTurn(num)}
           />
+
+          <div className="self-center pt-10">
+            <GameBar />
+          </div>
         </div>
       </section>
     </div>
