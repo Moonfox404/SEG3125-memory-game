@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useHighScore from "../hooks/useHighScore";
 
 type GameCardModel = {
@@ -24,6 +24,7 @@ const Game = ({ theme, boardSize, swapsPerTurn }: GameProps) => {
   const [highScore, setHighScore] = useHighScore();
   const [time, setTime] = useState(0);
   const [turn, setTurn] = useState(true);
+  const [swapNumber, setSwapNumber] = useState(0);
   const [cardsMatched, setCardsMatched] = useState(0);
   const [moves, setMoves] = useState(0);
   const revealedCards = useRef<number[]>([]);
@@ -78,6 +79,36 @@ const Game = ({ theme, boardSize, swapsPerTurn }: GameProps) => {
       }, 500);
     }
   };
+
+  const swapCards = (i: number) => {
+    const indexArray = Array.from(activeIndices.current);
+    const firstIndex = Math.floor(Math.random() * indexArray.length);
+    const secondIndex = Math.floor(Math.random() * (indexArray.length - 1));
+
+    const firstCard = indexArray[firstIndex];
+    const secondCard = [...indexArray.slice(0, firstIndex), ...indexArray.slice(firstIndex + 1, -1)][secondIndex];
+
+    const updatedModel = [...gameModel];
+    updatedModel[firstCard] = gameModel[secondCard];
+    updatedModel[secondCard] = gameModel[firstCard];
+
+    setTimeout(() => {
+      setGameModel(updatedModel);
+
+      if (i === swapsPerTurn - 1) {
+        setTurn(true);
+      }
+    }, 1000 * i);
+  }
+
+  useEffect(() => {
+    if (!turn) {
+      swapCards(swapNumber);
+      setSwapNumber(swapNumber + 1);
+    } else {
+      setSwapNumber(0);
+    }
+  }, [gameModel]);  // run swap every time game model is updated at end of user's turn
 };
 
 export default Game;
