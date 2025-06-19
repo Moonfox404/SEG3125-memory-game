@@ -23,7 +23,9 @@ const NavBar = () => {
               <button
                 className="h-full flex items-center"
                 onClick={() =>
-                  document.getElementById("info_modal")!.showModal()
+                  (
+                    document.getElementById("info_modal")! as HTMLDialogElement
+                  ).showModal()
                 }
               >
                 {" "}

@@ -1,5 +1,7 @@
 import {
   faPalette,
+  faPause,
+  faPlay,
   faPuzzlePiece,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
@@ -31,8 +33,12 @@ const GameBar = () => {
       </div>
 
       <div className="flex flex-row items-center gap-1 cursor-pointer active:bg-indigo-300 dark:active:text-indigo-600 transition-all ease-in-out duration-200 hover:-translate-y-0.5 p-2 rounded-xl">
-        <FontAwesomeIcon icon={faRotateRight} />
-        <h1>New Game</h1>
+        {/* <FontAwesomeIcon icon={faRotateRight} />
+        <h1>New Game</h1> */}
+        <FontAwesomeIcon icon={faPause} />
+        <h1>Pause Game</h1>
+        {/* <FontAwesomeIcon icon={faPlay} />
+        <h1>Resume Game</h1> */}
       </div>
     </div>
   );

@@ -30,8 +30,6 @@ export default function Home() {
             setSwapsPerTurn={(num) => setSwapsPerTurn(num)}
           />
 
-          <ResultCard result="Win" score={100} highScore={200} />
-
           <div className="self-center pt-10">
             <GameBar />
           </div>
