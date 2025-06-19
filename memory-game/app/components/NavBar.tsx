@@ -20,10 +20,15 @@ const NavBar = () => {
               </a>
             </li>
             <li>
-              <a className="h-full flex items-center">
+              <button
+                className="h-full flex items-center"
+                onClick={() =>
+                  document.getElementById("info_modal")!.showModal()
+                }
+              >
                 {" "}
                 <FontAwesomeIcon icon={faCircleQuestion} />
-              </a>
+              </button>
             </li>
           </ul>
         </div>
