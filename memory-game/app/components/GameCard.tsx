@@ -4,7 +4,7 @@ import { useState } from "react";
 
 // using colours to test game logic before implementing animations
 const colours = ["red", "blue", "green", "yellow", "purple", "aqua", "coral", "pink", "orchid", "aquamarine"];
-const backColour = "beige";
+const backColours: string[] = Array.from({length: 10}, () => `rgba(255, 255, 255, ${Math.random()})`);
 
 type GameCardProps = {
   item: number;
@@ -23,7 +23,7 @@ const GameCard = ({ item, index, state, theme, disabled, onClick }: GameCardProp
   }
 
   return (
-    <div className="card w-50 h-50" onClick={() => {handleClick()}} style={{background: state === "rest" ? backColour : colours[item]}}>
+    <div className="card w-50 h-50" onClick={() => {handleClick()}} style={{background: state === "rest" ? backColours[item] : colours[item]}}>
     </div>
   );
 }

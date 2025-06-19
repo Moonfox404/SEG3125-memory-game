@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useHighScore from "../hooks/useHighScore";
 import GameCard from "./GameCard";
 
@@ -31,7 +31,6 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
   const [highScore, setHighScore] = useHighScore();
   const [time, setTime] = useState(0);
   const [turn, setTurn] = useState(true);
-  const [swapNumber, setSwapNumber] = useState(0);
   const [cardsMatched, setCardsMatched] = useState(0);
   const [moves, setMoves] = useState(0);
   const revealedCards = useRef<number[]>([]);
@@ -60,15 +59,12 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
 
   const checkMatch = async () => {
     const updateModel = (state: "matched" | "rest") => {
-      console.log("updating model");
-      console.log(gameModel);
-
       const updatedModel = [...gameModel];
       updatedModel[revealedCards.current[0]].state = state;
       updatedModel[revealedCards.current[1]].state = state;
       setGameModel(updatedModel);
 
-      console.log(updatedModel);
+      swapCards();
 
       // reset revealedCards
       revealedCards.current.length = 0;
@@ -92,14 +88,20 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
       // no match
       setTimeout(() => {
         updateModel("rest");
-      }, 500);
+      }, 1000);
     }
   };
 
   const swapCards = () => {
-    if (swapNumber < swapsPerTurn) {
+    let previousModel = gameModel;
+
+    if (swapsPerTurn == 0) {
+      setTurn(true);
+    }
+
+    for (let i = 0; i < swapsPerTurn; i++) {
       console.log("swapping cards");
-      console.log(gameModel);
+      console.log(previousModel);
 
       const indexArray = Array.from(activeIndices.current);
       const firstIndex = Math.floor(Math.random() * indexArray.length);
@@ -108,16 +110,21 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
       const firstCard = indexArray[firstIndex];
       const secondCard = [...indexArray.slice(0, firstIndex), ...indexArray.slice(firstIndex + 1, -1)][secondIndex];
 
-      const updatedModel = [...gameModel];
-      updatedModel[firstCard] = gameModel[secondCard];
-      updatedModel[secondCard] = gameModel[firstCard];
+      const updatedModel = [...previousModel];
+      updatedModel[firstCard] = previousModel[secondCard];
+      updatedModel[secondCard] = previousModel[firstCard];
+
+      previousModel = updatedModel;
+
+      console.log(updatedModel);
 
       setTimeout(() => {
         setGameModel(updatedModel);
-        setSwapNumber(swapNumber + 1);
-      }, 1000);
-    } else {
-      setTurn(true);
+
+        if (i == swapsPerTurn - 1) {
+          setTurn(true);
+        }
+      }, i * 2000);
     }
   };
 
@@ -130,14 +137,6 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
       handleGameEnd(score, highScore);
     }
   };
-
-  useEffect(() => {
-    if (!turn) {
-      swapCards();
-    } else {
-      setSwapNumber(0);
-    }
-  }, [gameModel]);  // run swap every time game model is updated at end of user's turn
 
   // tsx component
   return (
