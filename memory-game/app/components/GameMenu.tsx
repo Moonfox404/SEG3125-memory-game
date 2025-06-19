@@ -1,7 +1,7 @@
 import { faHeart, faLemon, faPaw } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-type GameMenu = {
+type GameMenuProp = {
   boardSize?: "Small" | "Medium" | "Large";
   setBoardSize?: (size: "Small" | "Medium" | "Large") => void;
   swapsPerTurn?: number; // 0 1 or 2
@@ -17,7 +17,7 @@ const GameMenu = ({
   setSwapsPerTurn,
   gameTheme,
   setGameTheme,
-}: GameMenu) => {
+}: GameMenuProp) => {
   return (
     <div
       className="flex flex-col gap-10 w-fit rounded-xl  p-15 shadow-md
