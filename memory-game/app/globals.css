@@ -4,24 +4,24 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #04388D;
-  --color-primary-content: #EDEFF7;
-  --color-base-100: #EDEFF7;
-  --color-base-200: #E7ECFF;
-  --color-base-300: #E0E6FB;
-  --color-base-content: #1F272E;
+  --color-primary: #04388d;
+  --color-primary-content: #edeff7;
+  --color-base-100: #edeff7;
+  --color-base-200: #e7ecff;
+  --color-base-300: #e0e6fb;
+  --color-base-content: #1f272e;
   --color-highlight: rgba(166, 182, 255, 0.3);
 }
 
 @plugin "daisyui/theme" {
   name: "dark";
   prefersdark: true;
-  --color-primary: #A6B6FF;
-  --color-primary-content: #1F272E;
-  --color-base-100: #1F272E;
-  --color-base-200: #232E38;
+  --color-primary: #a6b6ff;
+  --color-primary-content: #1f272e;
+  --color-base-100: #1f272e;
+  --color-base-200: #232e38;
   --color-base-300: #273643;
-  --color-base-content: #EDEFF7;
+  --color-base-content: #edeff7;
   --color-highlight: rgba(4, 56, 141, 0.3);
 }
 
@@ -36,4 +36,156 @@
 
 body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* 1. Use a more-intuitive box-sizing model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+* {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  /* 4. Add accessible line-height */
+  line-height: 1.5;
+  /* 5. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 6. Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+/*
+  10. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* 1. Use a more-intuitive box-sizing model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+* {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  /* 4. Add accessible line-height */
+  line-height: 1.5;
+  /* 5. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 6. Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+/*
+  10. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
 }
