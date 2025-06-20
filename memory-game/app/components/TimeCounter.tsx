@@ -3,17 +3,18 @@
 import { useEffect, useRef, useState } from "react"
 
 type TimeCounterProps = {
-  running: boolean;
+  running: boolean;  // reset to pause timer (paused -> running will resume the timer without reset)
+  stopped: boolean;  // set to stop timer (stopped -> running will start the timer after resetting it)
   setTime?: (elapsedTime: number) => void;
 }
 
-const TimeCounter = ({ running, setTime }: TimeCounterProps) => {
+const TimeCounter = ({ running, stopped, setTime }: TimeCounterProps) => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const timeoutId = useRef<NodeJS.Timeout | undefined>(undefined);
 
   useEffect(() => {
-    if (running) {
-      
+    if (!stopped && running) {
+
       timeoutId.current = setTimeout(() => {
         setElapsedTime(elapsedTime + 1);
         if (setTime) {
@@ -25,6 +26,19 @@ const TimeCounter = ({ running, setTime }: TimeCounterProps) => {
       clearTimeout(timeoutId.current);
     }
   }, [running, elapsedTime]);
+
+  // allow changing the current value of the counter
+  useEffect(() => {
+    if (!stopped) {
+      // changing from stopped -> running state
+      setElapsedTime(0);
+      if (setTime) {
+        setTime(0);
+      }
+    } else {
+      clearTimeout(timeoutId.current);
+    }
+  }, [stopped]);
 
   const minutes = Math.floor(elapsedTime / 60);
   const seconds = elapsedTime % 60;

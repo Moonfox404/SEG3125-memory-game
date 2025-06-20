@@ -147,7 +147,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, dark, handleGameEnd }: G
   return (
     <div className="grid grid-rows-2">
       <div className="row">
-        <TimeCounter running={!paused && turn} setTime={setTime} />
+        <TimeCounter running={!paused && turn} stopped={cardsMatched == numCards} setTime={setTime} />
       </div>
       <div className="row grid grid-cols-5">
         {
