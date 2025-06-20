@@ -179,11 +179,19 @@ const Game = ({
 
   // tsx component
   return (
-    <div className="flex flex-col gap-10">
-      <div className="">
+    <div className="flex flex-col gap-5">
+      <div className="p-5">
         <TimeCounter running={!paused && turn} time={time} setTime={setTime} />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div
+        className={`grid gap-2 grid-cols-[repeat(6,minmax(30px,150px))] ${
+          boardSize === 0
+            ? "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3 "
+            : boardSize === 1
+            ? "max-[515px]:grid-cols-6 max-[400px]:grid-cols-3"
+            : "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3"
+        }`}
+      >
         {gameModel.map((model, idx) => {
           return (
             <motion.div

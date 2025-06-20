@@ -55,10 +55,10 @@ export default function Home() {
     setIsGameModalOpen(true);
   }
   return (
-    <div className="max-w-screen max-h-screen">
+    <div className="w-screen min-h-screen flex flex-col">
       <NavBar setGameState={setGameState} theme={theme} setTheme={setTheme} />
-      <section className="min-w-screen flex p-5 ">
-        <div className="w-screen flex flex-col justify-center items-center">
+      <section className="w-full h-full flex p-5 grow justify-center items-center">
+        <div className="w-fit h-fit">
           {!gameState ? (
             <GameMenu
               boardSize={boardSize}
@@ -73,7 +73,7 @@ export default function Home() {
               }}
             />
           ) : (
-            <div className="max-h-full">
+            <div className="w-full h-full flex justify-center items-center flex-col p-5">
               <Game
                 theme={gameTheme}
                 dark={theme === "dark"}
