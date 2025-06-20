@@ -4,10 +4,12 @@ import { useRef, useState } from "react";
 import useHighScore from "../hooks/useHighScore";
 import GameCard from "./GameCard";
 import TimeCounter from "./TimeCounter";
+import { motion } from "motion/react";
 
 type GameCardModel = {
   state: "rest" | "flipped" | "matched";
   item: number;
+  key: number;
 };
 
 type GameProps = {
@@ -40,7 +42,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, dark, handleGameEnd }: G
 
   const [gameModel, setGameModel] = useState<GameCardModel[]>(
     [...boardValues, ...boardValues]
-      .map((value) => { return { state: "rest", item: value } })
+      .map((value, idx) => { return { state: "rest", item: value, key: idx } })
       .sort(() => Math.random() - 0.5) as GameCardModel[]
   );
 
@@ -150,9 +152,9 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, dark, handleGameEnd }: G
       <div className="row grid grid-cols-5">
         {
           gameModel.map((model, idx) => {
-            return <div key={idx} className="row w-fit">
+            return <motion.div key={model.key} className="row w-fit" layout transition={{type: "spring", duration: 1, bounce: 0.1}}>
               <GameCard dark={dark} index={idx} item={model.item} state={model.state} theme={theme} disabled={paused || !turn} onClick={handleClick} />
-            </div>;
+            </motion.div>;
           })
         }
       </div>
