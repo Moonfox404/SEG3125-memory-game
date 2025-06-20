@@ -11,10 +11,11 @@ type GameCardModel = {
 };
 
 type GameProps = {
-  theme: "Fruit" | "Animal" | "Heart";
+  theme: "fruit" | "animal" | "heart";
   boardSize: number;  // 0, 1, or 2 (for small, medium, large)
   swapsPerTurn: number;  // 0, 1, or 2
   paused: boolean;
+  dark: boolean;
   handleGameEnd: (score: number, highScore: number) => void;
 };
 
@@ -22,7 +23,7 @@ const calculateScore = (time: number, moves: number, boardSize: number) => {
   return (60 * 60 - time) * (boardSize / moves);
 }
 
-const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GameProps) => {
+const Game = ({ theme, boardSize, swapsPerTurn, paused, dark, handleGameEnd }: GameProps) => {
   // state from props
   const boardHeight = 2 + boardSize;
   // set board height to constant value of 5 to avoid setting num cols dynamically
@@ -150,7 +151,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
         {
           gameModel.map((model, idx) => {
             return <div key={idx} className="row w-fit">
-              <GameCard index={idx} item={model.item} state={model.state} theme={theme} disabled={paused || !turn} onClick={handleClick} />
+              <GameCard dark={dark} index={idx} item={model.item} state={model.state} theme={theme} disabled={paused || !turn} onClick={handleClick} />
             </div>;
           })
         }

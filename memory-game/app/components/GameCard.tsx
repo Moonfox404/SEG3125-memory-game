@@ -1,21 +1,35 @@
 "use client"
 
-import { useState } from "react";
-
-// using colours to test game logic before implementing animations
-const colours = ["red", "blue", "green", "yellow", "purple", "aqua", "coral", "pink", "orchid", "aquamarine"];
-const backColours: string[] = Array.from({length: 10}, () => `rgba(255, 255, 255, ${Math.random()})`);
+import { motion } from "motion/react";
 
 type GameCardProps = {
   item: number;
   index: number;
   state: "rest" | "flipped" | "matched";
-  theme: "Fruit" | "Animal" | "Heart";
+  theme: "fruit" | "animal" | "heart";
+  dark: boolean;
   disabled: boolean;
   onClick: (index: number) => void;
 }
 
-const GameCard = ({ item, index, state, theme, disabled, onClick }: GameCardProps) => {
+type GameImgProps = Pick<GameCardProps, "item" | "theme" | "dark">;
+
+const GameImg = ({ item, theme, dark }: GameImgProps) => {
+  return <img src={"./" + theme + "-" + item + "-" + (dark ? "dark" : "light") + ".PNG"} />
+}
+
+const GameImgWithReveal = ({ item, theme, dark }: GameImgProps) => {
+  return <div className="grid">
+    <motion.div className="col-start-1 row-start-1 z-2" initial={{y: 0}} animate={{y: -100}} >
+      <img src={"./cup-trans-" + (dark ? "dark" : "light") + ".PNG"} />
+    </motion.div>
+    <div className="col-start-1 row-start-1 z-1">
+      <GameImg item={item} theme={theme} dark={dark} />
+    </div>
+  </div>
+}
+
+const GameCard = ({ item, index, state, theme, dark, disabled, onClick }: GameCardProps) => {
   const handleClick = () => {
     if (!disabled) {
       onClick(index);
@@ -23,7 +37,18 @@ const GameCard = ({ item, index, state, theme, disabled, onClick }: GameCardProp
   }
 
   return (
-    <div className="card w-50 h-50" onClick={() => {handleClick()}} style={{background: state === "rest" ? backColours[item] : colours[item]}}>
+    <div className="card w-50 h-50" onClick={() => { handleClick() }}>
+      {
+        state === "rest" ?
+          <img src={"./cup-solid-" + (dark ? "dark" : "light") + ".PNG"} />
+          :
+          (
+            state === "matched" ?
+              <GameImg item={item} theme={theme} dark={dark} />
+              :
+              <GameImgWithReveal item={item} theme={theme} dark={dark} />
+          )
+      }
     </div>
   );
 }
