@@ -6,8 +6,8 @@ type GameMenuProp = {
   setBoardSize?: (size: number) => void;
   swapsPerTurn?: number; // 0 1 or 2
   setSwapsPerTurn?: (num: number) => void;
-  gameTheme?: "Fruit" | "Animal" | "Heart";
-  setGameTheme?: (theme: "Fruit" | "Animal" | "Heart") => void;
+  gameTheme?: "fruit" | "animal" | "heart";
+  setGameTheme?: (theme: "fruit" | "animal" | "heart") => void;
   startGame?: () => void;
 };
 
@@ -98,31 +98,31 @@ const GameMenu = ({
           <div className="flex flex-row justify-center gap-5  max-[440px]:flex-col">
             <button
               className={`btn text-primary ${
-                gameTheme === "Fruit"
+                gameTheme === "fruit"
                   ? "bg-indigo-200 dark:bg-indigo-700"
                   : null
               }`}
-              onClick={() => setGameTheme("Fruit")}
+              onClick={() => setGameTheme("fruit")}
             >
               <FontAwesomeIcon icon={faLemon} />
             </button>
             <button
               className={`btn text-primary ${
-                gameTheme === "Animal"
+                gameTheme === "animal"
                   ? "bg-indigo-200 dark:bg-indigo-700"
                   : null
               }`}
-              onClick={() => setGameTheme("Animal")}
+              onClick={() => setGameTheme("animal")}
             >
               <FontAwesomeIcon icon={faPaw} />
             </button>
             <button
               className={`btn text-primary ${
-                gameTheme === "Heart"
+                gameTheme === "heart"
                   ? "bg-indigo-200 dark:bg-indigo-700"
                   : null
               }`}
-              onClick={() => setGameTheme("Heart")}
+              onClick={() => setGameTheme("heart")}
             >
               <FontAwesomeIcon icon={faHeart} />
             </button>

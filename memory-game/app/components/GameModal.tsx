@@ -6,8 +6,8 @@ type GameModalProp = {
   setPause: (pause: boolean) => void;
   currentGameSetting: "Theme" | "Gameplay" | null;
   setCurrentGameSetting: (setting: "Theme" | "Gameplay" | null) => void;
-  gameTheme?: "Fruit" | "Animal" | "Heart";
-  setGameTheme?: (theme: "Fruit" | "Animal" | "Heart") => void;
+  gameTheme?: "fruit" | "animal" | "heart";
+  setGameTheme?: (theme: "fruit" | "animal" | "heart") => void;
   boardSize?: number;
   setBoardSize?: (size: number) => void;
   swapsPerTurn?: number; // 0 1 or 2

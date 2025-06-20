@@ -1,12 +1,15 @@
 import { faCircleQuestion, faSliders } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ThemeToggle from "./ThemeToggle";
+import { Dispatch } from "react";
 
 type NavBarProps = {
   setGameState: (state: boolean) => void;
+  theme: string;
+  setTheme: Dispatch<string>
 };
 
-const NavBar = ({ setGameState }: NavBarProps) => {
+const NavBar = ({ setGameState, theme, setTheme }: NavBarProps) => {
   return (
     <div>
       <div className="navbar bg-base shadow-sm">
@@ -21,7 +24,7 @@ const NavBar = ({ setGameState }: NavBarProps) => {
         <div className="flex-none text-primary">
           <ul className="menu menu-horizontal px-1">
             <li className="">
-              <ThemeToggle />
+              <ThemeToggle theme={theme} setTheme={setTheme}/>
             </li>
             <li>
               <a className="h-full flex items-center">

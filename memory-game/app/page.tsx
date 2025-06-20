@@ -9,17 +9,19 @@ import Game from "./components/Game";
 import ResultModal from "./components/ResultModal";
 import GameModal from "./components/GameModal";
 import useHighScore from "./hooks/useHighScore";
+import useDarkMode from "./hooks/useDarkMode";
 
 export default function Home() {
   const [boardSize, setBoardSize] = useState<number>(0);
   const [swapsPerTurn, setSwapsPerTurn] = useState(0);
-  const [gameTheme, setGameTheme] = useState<"Fruit" | "Animal" | "Heart">(
-    "Fruit"
+  const [gameTheme, setGameTheme] = useState<"fruit" | "animal" | "heart">(
+    "fruit"
   );
   const [gameState, setGameState] = useState(false);
   const [pause, setPause] = useState(false);
   const [gameScore, setGameScore] = useState<number>(0);
   const [highScore, setHighScore] = useHighScore();
+  const [theme, setTheme] = useDarkMode();
 
   const [time, setTime] = useState(0);
 
@@ -53,7 +55,7 @@ export default function Home() {
   }
   return (
     <div>
-      <NavBar setGameState={setGameState} />
+      <NavBar setGameState={setGameState} theme={theme} setTheme={setTheme}/>
       <section className="min-w-screen min-h-screen flex p-5 ">
         <div className="w-screen min-h-[50vh] flex flex-col justify-center items-center">
           {!gameState ? (
@@ -73,6 +75,7 @@ export default function Home() {
             <div>
               <Game
                 theme={gameTheme}
+                dark={theme === "dark"}
                 boardSize={boardSize}
                 swapsPerTurn={swapsPerTurn}
                 paused={pause}

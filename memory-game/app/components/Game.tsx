@@ -1,20 +1,23 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useHighScore from "../hooks/useHighScore";
 import GameCard from "./GameCard";
 import TimeCounter from "./TimeCounter";
+import { motion } from "motion/react";
 
 type GameCardModel = {
   state: "rest" | "flipped" | "matched";
   item: number;
+  key: number;
 };
 
 type GameProps = {
-  theme: "Fruit" | "Animal" | "Heart";
-  boardSize: number; // 0, 1, or 2 (for small, medium, large)
-  swapsPerTurn: number; // 0, 1, or 2
+  theme: "fruit" | "animal" | "heart";
+  boardSize: number;  // 0, 1, or 2 (for small, medium, large)
+  swapsPerTurn: number;  // 0, 1, or 2
   paused: boolean;
+  dark: boolean;
   handleGameEnd: (score: number, highScore: number) => void;
   time: number;
   setTime: (time: number) => void;
@@ -26,6 +29,7 @@ const calculateScore = (time: number, moves: number, boardSize: number) => {
 
 const Game = ({
   theme,
+  dark,
   boardSize,
   swapsPerTurn,
   paused,
@@ -36,7 +40,7 @@ const Game = ({
   // state from props
   const boardHeight = 2 + boardSize;
   // set board height to constant value of 5 to avoid setting num cols dynamically
-  const numCards = boardHeight * 5;
+  const numCards = boardHeight * 6;
   const boardValues = Array.from({ length: numCards / 2 }, (_, i) => i);
 
   // initialise state
@@ -46,17 +50,27 @@ const Game = ({
   const [moves, setMoves] = useState(0);
   const revealedCards = useRef<number[]>([]);
 
-  const [gameModel, setGameModel] = useState<GameCardModel[]>(
-    [...boardValues, ...boardValues]
-      .map((value) => {
-        return { state: "rest", item: value };
-      })
-      .sort(() => Math.random() - 0.5) as GameCardModel[]
-  );
+  const [gameModel, setGameModel] = useState<GameCardModel[]>([]);
 
-  const activeIndices = useRef<Set<number>>(
-    new Set(Array.from({ length: gameModel.length }, (_, i) => i))
-  );
+  const activeIndices = useRef<Set<number>>(new Set());
+
+  useEffect(() => {
+    // reset state
+
+    const resetModel = [...boardValues, ...boardValues]
+      .map((value, idx) => { return { state: "rest", item: value, key: idx } })
+      .sort(() => Math.random() - 0.5) as GameCardModel[]
+
+    setGameModel(resetModel);
+
+    setCardsMatched(0);
+    setMoves(0);
+    setTime(0);
+    setTurn(true);
+    revealedCards.current.length = 0;
+    activeIndices.current = new Set(Array.from({ length: resetModel.length }, (_, i) => i));
+
+  }, [numCards, swapsPerTurn])
 
   // functions for game logic
   const handleClick = (index: number) => {
@@ -162,21 +176,22 @@ const Game = ({
   return (
     <div className="flex flex-col gap-10">
       <div className="">
-        <TimeCounter running={!paused && turn} setTime={setTime} />
+        <TimeCounter running={!paused && turn} time={time} setTime={setTime} />
       </div>
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid grid-cols-6 gap-2">
         {gameModel.map((model, idx) => {
           return (
-            <div key={idx} className="row w-fit">
+            <motion.div key={model.key} className="row w-fit" layout transition={{type: "spring", duration: 1, bounce: 0.1}}>
               <GameCard
                 index={idx}
                 item={model.item}
                 state={model.state}
                 theme={theme}
+                dark={dark}
                 disabled={paused || !turn}
                 onClick={handleClick}
               />
-            </div>
+            </motion.div>
           );
         })}
       </div>

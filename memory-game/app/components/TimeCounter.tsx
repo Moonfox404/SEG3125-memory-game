@@ -3,31 +3,29 @@
 import { useEffect, useRef, useState } from "react"
 
 type TimeCounterProps = {
-  running: boolean;
-  setTime?: (elapsedTime: number) => void;
+  running: boolean;  // reset to pause timer (paused -> running will resume the timer without reset)
+  time: number;
+  setTime: (elapsedTime: number) => void;
 }
 
-const TimeCounter = ({ running, setTime }: TimeCounterProps) => {
-  const [elapsedTime, setElapsedTime] = useState(0);
+const TimeCounter = ({ running, time, setTime }: TimeCounterProps) => {
   const timeoutId = useRef<NodeJS.Timeout | undefined>(undefined);
 
   useEffect(() => {
     if (running) {
-      
+
+      clearTimeout(timeoutId.current);
       timeoutId.current = setTimeout(() => {
-        setElapsedTime(elapsedTime + 1);
-        if (setTime) {
-          setTime(elapsedTime + 1);
-        }
+        setTime(time + 1);
       }, 1000);
 
     } else {
       clearTimeout(timeoutId.current);
     }
-  }, [running, elapsedTime]);
+  }, [running, time]);
 
-  const minutes = Math.floor(elapsedTime / 60);
-  const seconds = elapsedTime % 60;
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
   const paddedSeconds = seconds > 9 ? seconds : "0" + seconds;
 
   return <div>
