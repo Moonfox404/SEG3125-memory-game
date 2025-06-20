@@ -23,7 +23,7 @@ export default function Home() {
   const [highScore, setHighScore] = useHighScore();
   const [theme, setTheme] = useDarkMode();
 
-  const [time, setTime] = useState(0);
+  const [gameNumber, setGameNumber] = useState(0);  // counter incremented to reset game
 
   const [currentGameSetting, setCurrentGameSetting] = useState<
     "Theme" | "Gameplay" | null
@@ -31,7 +31,7 @@ export default function Home() {
 
   function resetGameState() {
     setGameScore(0);
-    setTime(0);
+    setGameNumber(gameNumber + 1);
   }
 
   function handleGameEnd(score: number, highScore: number) {
@@ -80,8 +80,7 @@ export default function Home() {
                 swapsPerTurn={swapsPerTurn}
                 paused={pause}
                 handleGameEnd={handleGameEnd}
-                time={time}
-                setTime={setTime}
+                gameNumber={gameNumber}
               />
               <div className="w-full flex justify-center p-10">
                 <GameBar

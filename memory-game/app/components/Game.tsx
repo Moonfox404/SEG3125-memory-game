@@ -19,8 +19,7 @@ type GameProps = {
   paused: boolean;
   dark: boolean;
   handleGameEnd: (score: number, highScore: number) => void;
-  time: number;
-  setTime: (time: number) => void;
+  gameNumber: number;
 };
 
 const calculateScore = (time: number, moves: number, boardSize: number) => {
@@ -34,8 +33,7 @@ const Game = ({
   swapsPerTurn,
   paused,
   handleGameEnd,
-  time,
-  setTime,
+  gameNumber,
 }: GameProps) => {
   // state from props
   const boardHeight = 2 + boardSize;
@@ -45,6 +43,7 @@ const Game = ({
 
   // initialise state
   const [highScore, setHighScore] = useHighScore();
+  const [time, setTime] = useState(0);
   const [turn, setTurn] = useState(true);
   const [cardsMatched, setCardsMatched] = useState(0);
   const [moves, setMoves] = useState(0);
@@ -70,7 +69,7 @@ const Game = ({
     revealedCards.current.length = 0;
     activeIndices.current = new Set(Array.from({ length: resetModel.length }, (_, i) => i));
 
-  }, [numCards, swapsPerTurn])
+  }, [numCards, swapsPerTurn, gameNumber])
 
   // functions for game logic
   const handleClick = (index: number) => {
