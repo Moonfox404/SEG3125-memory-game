@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useHighScore from "../hooks/useHighScore";
 import GameCard from "./GameCard";
 import TimeCounter from "./TimeCounter";
@@ -29,7 +29,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, dark, handleGameEnd }: G
   // state from props
   const boardHeight = 2 + boardSize;
   // set board height to constant value of 5 to avoid setting num cols dynamically
-  const numCards = boardHeight * 5;
+  const numCards = boardHeight * 6;
   const boardValues = Array.from({ length: numCards / 2 }, (_, i) => i);
 
   // initialise state
@@ -40,13 +40,27 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, dark, handleGameEnd }: G
   const [moves, setMoves] = useState(0);
   const revealedCards = useRef<number[]>([]);
 
-  const [gameModel, setGameModel] = useState<GameCardModel[]>(
-    [...boardValues, ...boardValues]
+  const [gameModel, setGameModel] = useState<GameCardModel[]>([]);
+
+  const activeIndices = useRef<Set<number>>(new Set());
+
+  useEffect(() => {
+    // reset state
+
+    const resetModel = [...boardValues, ...boardValues]
       .map((value, idx) => { return { state: "rest", item: value, key: idx } })
       .sort(() => Math.random() - 0.5) as GameCardModel[]
-  );
 
-  const activeIndices = useRef<Set<number>>(new Set(Array.from({ length: gameModel.length }, (_, i) => i)));
+    setGameModel(resetModel);
+
+    setCardsMatched(0);
+    setMoves(0);
+    setTime(0);
+    setTurn(true);
+    revealedCards.current.length = 0;
+    activeIndices.current = new Set(Array.from({ length: resetModel.length }, (_, i) => i));
+
+  }, [numCards, swapsPerTurn])
 
   // functions for game logic
   const handleClick = (index: number) => {
@@ -147,9 +161,9 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, dark, handleGameEnd }: G
   return (
     <div className="grid grid-rows-2">
       <div className="row">
-        <TimeCounter running={!paused && turn} stopped={cardsMatched == numCards} setTime={setTime} />
+        <TimeCounter running={!paused && turn} time={time} setTime={setTime} />
       </div>
-      <div className="row grid grid-cols-5">
+      <div className="row grid grid-cols-6">
         {
           gameModel.map((model, idx) => {
             return <motion.div key={model.key} className="row w-fit" layout transition={{type: "spring", duration: 1, bounce: 0.1}}>

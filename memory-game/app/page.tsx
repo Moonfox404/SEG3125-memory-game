@@ -31,7 +31,7 @@ export default function Home() {
             setSwapsPerTurn={(num) => setSwapsPerTurn(num)}
           /> */}
 
-          <Game theme="fruit" boardSize={0} swapsPerTurn={2} paused={false} dark={true} handleGameEnd={(score) => {console.log(score)}} />
+          <Game theme="fruit" boardSize={2} swapsPerTurn={2} paused={false} dark={true} handleGameEnd={(score) => {console.log(score)}} />
 
           <div className="self-center pt-10">
             <GameBar />
