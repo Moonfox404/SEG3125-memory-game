@@ -14,12 +14,14 @@ type GameCardModel = {
 
 type GameProps = {
   theme: "fruit" | "animal" | "heart";
-  boardSize: number;  // 0, 1, or 2 (for small, medium, large)
-  swapsPerTurn: number;  // 0, 1, or 2
+  boardSize: number; // 0, 1, or 2 (for small, medium, large)
+  swapsPerTurn: number; // 0, 1, or 2
   paused: boolean;
   dark: boolean;
   handleGameEnd: (score: number, highScore: number) => void;
   gameNumber: number;
+  highScore: number;
+  setHighScore: (score: number) => void;
 };
 
 const calculateScore = (time: number, moves: number, boardSize: number) => {
@@ -34,6 +36,8 @@ const Game = ({
   paused,
   handleGameEnd,
   gameNumber,
+  highScore,
+  setHighScore,
 }: GameProps) => {
   // state from props
   const boardHeight = 2 + boardSize;
@@ -42,7 +46,6 @@ const Game = ({
   const boardValues = Array.from({ length: numCards / 2 }, (_, i) => i);
 
   // initialise state
-  const [highScore, setHighScore] = useHighScore();
   const [time, setTime] = useState(0);
   const [turn, setTurn] = useState(true);
   const [cardsMatched, setCardsMatched] = useState(0);
@@ -57,8 +60,10 @@ const Game = ({
     // reset state
 
     const resetModel = [...boardValues, ...boardValues]
-      .map((value, idx) => { return { state: "rest", item: value, key: idx } })
-      .sort(() => Math.random() - 0.5) as GameCardModel[]
+      .map((value, idx) => {
+        return { state: "rest", item: value, key: idx };
+      })
+      .sort(() => Math.random() - 0.5) as GameCardModel[];
 
     setGameModel(resetModel);
 
@@ -67,9 +72,10 @@ const Game = ({
     setTime(0);
     setTurn(true);
     revealedCards.current.length = 0;
-    activeIndices.current = new Set(Array.from({ length: resetModel.length }, (_, i) => i));
-
-  }, [numCards, swapsPerTurn, gameNumber])
+    activeIndices.current = new Set(
+      Array.from({ length: resetModel.length }, (_, i) => i)
+    );
+  }, [numCards, swapsPerTurn, gameNumber]);
 
   // functions for game logic
   const handleClick = (index: number) => {
@@ -180,7 +186,12 @@ const Game = ({
       <div className="grid grid-cols-6 gap-2">
         {gameModel.map((model, idx) => {
           return (
-            <motion.div key={model.key} className="row w-fit" layout transition={{type: "spring", duration: 1, bounce: 0.1}}>
+            <motion.div
+              key={model.key}
+              className="row w-fit"
+              layout
+              transition={{ type: "spring", duration: 1, bounce: 0.1 }}
+            >
               <GameCard
                 index={idx}
                 item={model.item}
