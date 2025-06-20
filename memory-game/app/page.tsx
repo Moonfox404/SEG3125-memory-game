@@ -26,7 +26,7 @@ export default function Home() {
   const [gameNumber, setGameNumber] = useState(0); // counter incremented to reset game
 
   const [currentGameSetting, setCurrentGameSetting] = useState<
-    "Theme" | "Gameplay" | null
+    "Theme" | "Gameplay" | "Menu" | null
   >(null);
 
   function resetGameState() {
@@ -49,14 +49,19 @@ export default function Home() {
 
   const [isGameModalOpen, setIsGameModalOpen] = useState(false);
 
-  function openGameModal(setting: "Theme" | "Gameplay") {
+  function openGameModal(setting: "Theme" | "Gameplay" | "Menu") {
     setCurrentGameSetting(setting);
     setPause(true);
     setIsGameModalOpen(true);
   }
   return (
     <div className="w-screen min-h-screen flex flex-col">
-      <NavBar setGameState={setGameState} theme={theme} setTheme={setTheme} />
+      <NavBar
+        setGameState={setGameState}
+        theme={theme}
+        setTheme={setTheme}
+        openMenu={() => openGameModal("Menu")}
+      />
       <section className="w-full h-full flex p-5 grow justify-center items-center">
         <div className="w-fit h-fit">
           {!gameState ? (
