@@ -108,7 +108,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
       const secondIndex = Math.floor(Math.random() * (indexArray.length - 1));
 
       const firstCard = indexArray[firstIndex];
-      const secondCard = [...indexArray.slice(0, firstIndex), ...indexArray.slice(firstIndex + 1, -1)][secondIndex];
+      const secondCard = [...indexArray.slice(0, firstIndex), ...indexArray.slice(firstIndex + 1, indexArray.length)][secondIndex];
 
       const updatedModel = [...previousModel];
       updatedModel[firstCard] = previousModel[secondCard];
