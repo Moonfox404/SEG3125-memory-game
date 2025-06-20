@@ -2,12 +2,21 @@ import { faCircleQuestion, faSliders } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ThemeToggle from "./ThemeToggle";
 
-const NavBar = () => {
+type NavBarProps = {
+  setGameState: (state: boolean) => void;
+};
+
+const NavBar = ({ setGameState }: NavBarProps) => {
   return (
     <div>
       <div className="navbar bg-base shadow-sm">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl text-primary">Swapped!</a>
+          <button
+            className="btn btn-ghost text-xl text-primary"
+            onClick={() => setGameState(false)}
+          >
+            Swapped!
+          </button>
         </div>
         <div className="flex-none text-primary">
           <ul className="menu menu-horizontal px-1">

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRef, useState } from "react";
 import useHighScore from "../hooks/useHighScore";
@@ -12,17 +12,27 @@ type GameCardModel = {
 
 type GameProps = {
   theme: "Fruit" | "Animal" | "Heart";
-  boardSize: number;  // 0, 1, or 2 (for small, medium, large)
-  swapsPerTurn: number;  // 0, 1, or 2
+  boardSize: number; // 0, 1, or 2 (for small, medium, large)
+  swapsPerTurn: number; // 0, 1, or 2
   paused: boolean;
   handleGameEnd: (score: number, highScore: number) => void;
+  time: number;
+  setTime: (time: number) => void;
 };
 
 const calculateScore = (time: number, moves: number, boardSize: number) => {
   return (60 * 60 - time) * (boardSize / moves);
-}
+};
 
-const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GameProps) => {
+const Game = ({
+  theme,
+  boardSize,
+  swapsPerTurn,
+  paused,
+  handleGameEnd,
+  time,
+  setTime,
+}: GameProps) => {
   // state from props
   const boardHeight = 2 + boardSize;
   // set board height to constant value of 5 to avoid setting num cols dynamically
@@ -31,7 +41,6 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
 
   // initialise state
   const [highScore, setHighScore] = useHighScore();
-  const [time, setTime] = useState(0);
   const [turn, setTurn] = useState(true);
   const [cardsMatched, setCardsMatched] = useState(0);
   const [moves, setMoves] = useState(0);
@@ -39,11 +48,15 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
 
   const [gameModel, setGameModel] = useState<GameCardModel[]>(
     [...boardValues, ...boardValues]
-      .map((value) => { return { state: "rest", item: value } })
+      .map((value) => {
+        return { state: "rest", item: value };
+      })
       .sort(() => Math.random() - 0.5) as GameCardModel[]
   );
 
-  const activeIndices = useRef<Set<number>>(new Set(Array.from({ length: gameModel.length }, (_, i) => i)));
+  const activeIndices = useRef<Set<number>>(
+    new Set(Array.from({ length: gameModel.length }, (_, i) => i))
+  );
 
   // functions for game logic
   const handleClick = (index: number) => {
@@ -68,9 +81,12 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
 
       // reset revealedCards
       revealedCards.current.length = 0;
-    }
+    };
 
-    if (gameModel[revealedCards.current[0]].item === gameModel[revealedCards.current[1]].item) {
+    if (
+      gameModel[revealedCards.current[0]].item ===
+      gameModel[revealedCards.current[1]].item
+    ) {
       // match
       const newTilesMatched = cardsMatched + 2;
       if (newTilesMatched === numCards) {
@@ -84,12 +100,11 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
       setCardsMatched(newTilesMatched);
       updateModel("matched");
       setTurn(true);
-
     } else {
       // no match
       setTimeout(() => {
         updateModel("rest");
-        swapCards();  // swap cards if the player guesses wrong
+        swapCards(); // swap cards if the player guesses wrong
       }, 1000);
     }
   };
@@ -110,7 +125,10 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
       const secondIndex = Math.floor(Math.random() * (indexArray.length - 1));
 
       const firstCard = indexArray[firstIndex];
-      const secondCard = [...indexArray.slice(0, firstIndex), ...indexArray.slice(firstIndex + 1, indexArray.length)][secondIndex];
+      const secondCard = [
+        ...indexArray.slice(0, firstIndex),
+        ...indexArray.slice(firstIndex + 1, indexArray.length),
+      ][secondIndex];
 
       const updatedModel = [...previousModel];
       updatedModel[firstCard] = previousModel[secondCard];
@@ -131,7 +149,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
   };
 
   const handleGameCompletion = () => {
-    const score = calculateScore(time, moves, numCards);
+    const score = Math.round(calculateScore(time, moves, numCards));
     if (!highScore || score > highScore) {
       setHighScore(score);
       handleGameEnd(score, score);
@@ -142,18 +160,25 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
 
   // tsx component
   return (
-    <div className="grid grid-rows-2">
-      <div className="row">
+    <div className="flex flex-col gap-10">
+      <div className="">
         <TimeCounter running={!paused && turn} setTime={setTime} />
       </div>
-      <div className="row grid grid-cols-5">
-        {
-          gameModel.map((model, idx) => {
-            return <div key={idx} className="row w-fit">
-              <GameCard index={idx} item={model.item} state={model.state} theme={theme} disabled={paused || !turn} onClick={handleClick} />
-            </div>;
-          })
-        }
+      <div className="grid grid-cols-5 gap-2">
+        {gameModel.map((model, idx) => {
+          return (
+            <div key={idx} className="row w-fit">
+              <GameCard
+                index={idx}
+                item={model.item}
+                state={model.state}
+                theme={theme}
+                disabled={paused || !turn}
+                onClick={handleClick}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

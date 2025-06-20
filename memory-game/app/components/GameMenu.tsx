@@ -2,12 +2,13 @@ import { faHeart, faLemon, faPaw } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type GameMenuProp = {
-  boardSize?: "Small" | "Medium" | "Large";
-  setBoardSize?: (size: "Small" | "Medium" | "Large") => void;
+  boardSize?: number;
+  setBoardSize?: (size: number) => void;
   swapsPerTurn?: number; // 0 1 or 2
   setSwapsPerTurn?: (num: number) => void;
   gameTheme?: "Fruit" | "Animal" | "Heart";
   setGameTheme?: (theme: "Fruit" | "Animal" | "Heart") => void;
+  startGame?: () => void;
 };
 
 const GameMenu = ({
@@ -17,43 +18,41 @@ const GameMenu = ({
   setSwapsPerTurn,
   gameTheme,
   setGameTheme,
+  startGame,
 }: GameMenuProp) => {
   return (
     <div
-      className="flex flex-col gap-10 w-fit rounded-xl  p-15 shadow-md
-    dark:shadow-[0_0_8px_rgba(166,182,255,1),0_0_20px_rgba(166,182,255,0.2),0_0_30px_rgba(166,182,255,0.1)]"
+      className={`flex flex-col gap-10 w-fit rounded-xl  p-15 ${
+        startGame
+          ? "shadow-md dark:shadow-[0_0_8px_rgba(166,182,255,1),0_0_20px_rgba(166,182,255,0.2),0_0_30px_rgba(166,182,255,0.1)]"
+          : null
+      }`}
     >
-      {!!boardSize && !!setBoardSize ? (
+      {boardSize != null && !!setBoardSize ? (
         <div className="text-primary flex flex-col gap-2">
           <h1 className="text-xl font-semibold text-center">Board Size</h1>
           <div className="flex flex-row justify-between gap-5  max-[440px]:flex-col">
             <button
               className={`btn text-primary ${
-                boardSize === "Small"
-                  ? "bg-indigo-200 dark:bg-indigo-700"
-                  : null
+                boardSize === 0 ? "bg-indigo-200 dark:bg-indigo-700" : null
               }`}
-              onClick={() => setBoardSize("Small")}
+              onClick={() => setBoardSize(0)}
             >
               Small
             </button>
             <button
               className={`btn text-primary ${
-                boardSize === "Medium"
-                  ? "bg-indigo-200 dark:bg-indigo-700"
-                  : null
+                boardSize === 1 ? "bg-indigo-200 dark:bg-indigo-700" : null
               }`}
-              onClick={() => setBoardSize("Medium")}
+              onClick={() => setBoardSize(1)}
             >
               Medium
             </button>
             <button
               className={`btn text-primary ${
-                boardSize === "Large"
-                  ? "bg-indigo-200 dark:bg-indigo-700"
-                  : null
+                boardSize === 2 ? "bg-indigo-200 dark:bg-indigo-700" : null
               }`}
-              onClick={() => setBoardSize("Large")}
+              onClick={() => setBoardSize(2)}
             >
               Large
             </button>
@@ -131,8 +130,11 @@ const GameMenu = ({
         </div>
       ) : null}
 
-      {!!boardSize && swapsPerTurn != null && !!gameTheme ? (
-        <button className="btn text-primary-content bg-primary rounded-xl hover:bg-indigo-500 hover:text-white">
+      {startGame ? (
+        <button
+          className="btn text-primary-content bg-primary rounded-xl hover:bg-indigo-500 hover:text-white"
+          onClick={startGame}
+        >
           <strong>Start</strong>
         </button>
       ) : null}
