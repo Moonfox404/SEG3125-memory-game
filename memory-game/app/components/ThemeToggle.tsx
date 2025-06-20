@@ -2,11 +2,14 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-regular-svg-icons";
-import useDarkMode from "../hooks/useDarkMode";
-import { useEffect, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 
-const ThemeToggle = () => {
-  const [theme, setTheme] = useDarkMode();
+type ThemeToggleProps = {
+  theme: string;
+  setTheme: Dispatch<string>
+}
+
+const ThemeToggle = ({ theme, setTheme }: ThemeToggleProps) => {
   const [initialTheme, setInitialTheme] = useState("");
 
   useEffect(() => {
