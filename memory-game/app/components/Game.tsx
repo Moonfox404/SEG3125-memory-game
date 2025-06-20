@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import useHighScore from "../hooks/useHighScore";
 import GameCard from "./GameCard";
+import TimeCounter from "./TimeCounter";
 
 type GameCardModel = {
   state: "rest" | "flipped" | "matched";
@@ -26,7 +27,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
   const boardHeight = 2 + boardSize;
   // set board height to constant value of 5 to avoid setting num cols dynamically
   const numCards = boardHeight * 5;
-  const boardValues = Array.from({ length: numCards / 2 }, (_, i) => i );
+  const boardValues = Array.from({ length: numCards / 2 }, (_, i) => i);
 
   // initialise state
   const [highScore, setHighScore] = useHighScore();
@@ -38,11 +39,11 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
 
   const [gameModel, setGameModel] = useState<GameCardModel[]>(
     [...boardValues, ...boardValues]
-      .map((value) => {return {state: "rest", item: value}})
+      .map((value) => { return { state: "rest", item: value } })
       .sort(() => Math.random() - 0.5) as GameCardModel[]
   );
 
-  const activeIndices = useRef<Set<number>>(new Set(Array.from({ length: gameModel.length }, (_, i) => i )));
+  const activeIndices = useRef<Set<number>>(new Set(Array.from({ length: gameModel.length }, (_, i) => i)));
 
   // functions for game logic
   const handleClick = (index: number) => {
@@ -81,7 +82,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
 
       activeIndices.current.delete(revealedCards.current[0]);
       activeIndices.current.delete(revealedCards.current[1]);
-      
+
       setCardsMatched(newTilesMatched);
       updateModel("matched");
 
@@ -141,14 +142,19 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
 
   // tsx component
   return (
-    <div className="grid grid-cols-5">
-      {
-        gameModel.map((model, idx) => {
-          return <div key={idx} className="row w-fit">
-            <GameCard index={idx} item={model.item} state={model.state} theme={theme} disabled={paused || !turn} onClick={handleClick}/>
-          </div>;
-        })
-      }
+    <div className="grid grid-rows-2">
+      <div className="row">
+        <TimeCounter running={!paused && turn} setTime={setTime} />
+      </div>
+      <div className="row grid grid-cols-5">
+        {
+          gameModel.map((model, idx) => {
+            return <div key={idx} className="row w-fit">
+              <GameCard index={idx} item={model.item} state={model.state} theme={theme} disabled={paused || !turn} onClick={handleClick} />
+            </div>;
+          })
+        }
+      </div>
     </div>
   );
 };

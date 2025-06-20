@@ -10,8 +10,6 @@ export default function Home() {
     <div>
       <main className="grid">
         <ThemeToggle />
-        {/* <GameCard item={0} state="rest" onClick={() => {console.log("clicked")}} /> */}
-        <TimeCounter running />
         <Game theme="Animal" boardSize={0} swapsPerTurn={2} paused={false} handleGameEnd={(score) => {console.log(score)}}/>
       </main>
     </div>

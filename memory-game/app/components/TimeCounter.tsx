@@ -24,7 +24,7 @@ const TimeCounter = ({ running, setTime }: TimeCounterProps) => {
     } else {
       clearTimeout(timeoutId.current);
     }
-  }, [elapsedTime]);
+  }, [running, elapsedTime]);
 
   const minutes = Math.floor(elapsedTime / 60);
   const seconds = elapsedTime % 60;
