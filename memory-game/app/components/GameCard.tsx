@@ -31,7 +31,7 @@ const GameImgWithReveal = ({ item, theme, dark }: GameImgProps) => {
 
 const GameCard = ({ item, index, state, theme, dark, disabled, onClick }: GameCardProps) => {
   const handleClick = () => {
-    if (!disabled && state != "matched") {
+    if (!disabled && state == "rest") {
       onClick(index);
     }
   }
