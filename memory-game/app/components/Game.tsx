@@ -66,8 +66,6 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
       updatedModel[revealedCards.current[1]].state = state;
       setGameModel(updatedModel);
 
-      swapCards();
-
       // reset revealedCards
       revealedCards.current.length = 0;
     }
@@ -85,11 +83,13 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
 
       setCardsMatched(newTilesMatched);
       updateModel("matched");
+      setTurn(true);
 
     } else {
       // no match
       setTimeout(() => {
         updateModel("rest");
+        swapCards();  // swap cards if the player guesses wrong
       }, 1000);
     }
   };
