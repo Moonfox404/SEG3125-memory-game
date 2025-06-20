@@ -174,10 +174,21 @@ const Game = ({
   // tsx component
   return (
     <div className="flex flex-col gap-10">
-      <div className="">
-        <TimeCounter running={!paused && turn} time={time} setTime={setTime} />
+      <div className="grid grid-cols-3 md:grid-cols-6 xl:grid-cols-8">
+        <div className="col flex">
+          <p className="mr-2">Time:</p>
+          <TimeCounter running={!paused && turn} time={time} setTime={setTime} />
+        </div>
+        <div className="col flex">
+          <p className="mr-2">Moves:</p>
+          <p>{moves}</p>
+        </div>
+        <div className="col md:col-start-6 xl:col-start-8 flex justify-end">
+          <p className="mr-2">High Score:</p>
+          <p>{Number.isNaN(highScore) ? "_ _" : highScore}</p>
+        </div>
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-2">
         {gameModel.map((model, idx) => {
           return (
             <motion.div key={model.key} className="row w-fit" layout transition={{type: "spring", duration: 1, bounce: 0.1}}>
