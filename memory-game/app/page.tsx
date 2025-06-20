@@ -12,7 +12,7 @@ export default function Home() {
         <ThemeToggle />
         {/* <GameCard item={0} state="rest" onClick={() => {console.log("clicked")}} /> */}
         <TimeCounter running />
-        <Game theme="Animal" boardSize={0} swapsPerTurn={2} paused={false} handleGameEnd={() => {}}/>
+        <Game theme="Animal" boardSize={0} swapsPerTurn={2} paused={false} handleGameEnd={(score) => {console.log(score)}}/>
       </main>
     </div>
   );

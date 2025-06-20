@@ -24,8 +24,9 @@ const calculateScore = (time: number, moves: number, boardSize: number) => {
 const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GameProps) => {
   // state from props
   const boardHeight = 2 + boardSize;
-  const boardWidth = 4 + Number(boardSize === 2);
-  const boardValues = Array.from({ length: boardHeight * boardWidth / 2 }, (_, i) => i );
+  // set board height to constant value of 5 to avoid setting num cols dynamically
+  const numCards = boardHeight * 5;
+  const boardValues = Array.from({ length: numCards / 2 }, (_, i) => i );
 
   // initialise state
   const [highScore, setHighScore] = useHighScore();
@@ -73,7 +74,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
     if (gameModel[revealedCards.current[0]].item === gameModel[revealedCards.current[1]].item) {
       // match
       const newTilesMatched = cardsMatched + 2;
-      if (newTilesMatched === boardHeight * boardWidth) {
+      if (newTilesMatched === numCards) {
         // game won
         handleGameCompletion();
       }
@@ -129,7 +130,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
   };
 
   const handleGameCompletion = () => {
-    const score = calculateScore(time, moves, boardHeight * boardWidth);
+    const score = calculateScore(time, moves, numCards);
     if (!highScore || score > highScore) {
       setHighScore(score);
       handleGameEnd(score, score);
@@ -140,7 +141,7 @@ const Game = ({ theme, boardSize, swapsPerTurn, paused, handleGameEnd }: GamePro
 
   // tsx component
   return (
-    <div className="grid grid-cols-4">
+    <div className="grid grid-cols-5">
       {
         gameModel.map((model, idx) => {
           return <div key={idx} className="row w-fit">
