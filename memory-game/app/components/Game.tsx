@@ -14,12 +14,14 @@ type GameCardModel = {
 
 type GameProps = {
   theme: "fruit" | "animal" | "heart";
-  boardSize: number;  // 0, 1, or 2 (for small, medium, large)
-  swapsPerTurn: number;  // 0, 1, or 2
+  boardSize: number; // 0, 1, or 2 (for small, medium, large)
+  swapsPerTurn: number; // 0, 1, or 2
   paused: boolean;
   dark: boolean;
   handleGameEnd: (score: number, highScore: number) => void;
   gameNumber: number;
+  highScore: number;
+  setHighScore: (score: number) => void;
 };
 
 const calculateScore = (time: number, moves: number, boardSize: number) => {
@@ -34,6 +36,8 @@ const Game = ({
   paused,
   handleGameEnd,
   gameNumber,
+  highScore,
+  setHighScore,
 }: GameProps) => {
   // state from props
   const boardHeight = 2 + boardSize;
@@ -42,7 +46,6 @@ const Game = ({
   const boardValues = Array.from({ length: numCards / 2 }, (_, i) => i);
 
   // initialise state
-  const [highScore, setHighScore] = useHighScore();
   const [time, setTime] = useState(0);
   const [turn, setTurn] = useState(true);
   const [cardsMatched, setCardsMatched] = useState(0);
@@ -57,8 +60,10 @@ const Game = ({
     // reset state
 
     const resetModel = [...boardValues, ...boardValues]
-      .map((value, idx) => { return { state: "rest", item: value, key: idx } })
-      .sort(() => Math.random() - 0.5) as GameCardModel[]
+      .map((value, idx) => {
+        return { state: "rest", item: value, key: idx };
+      })
+      .sort(() => Math.random() - 0.5) as GameCardModel[];
 
     setGameModel(resetModel);
 
@@ -67,9 +72,10 @@ const Game = ({
     setTime(0);
     setTurn(true);
     revealedCards.current.length = 0;
-    activeIndices.current = new Set(Array.from({ length: resetModel.length }, (_, i) => i));
-
-  }, [numCards, swapsPerTurn, gameNumber])
+    activeIndices.current = new Set(
+      Array.from({ length: resetModel.length }, (_, i) => i)
+    );
+  }, [numCards, swapsPerTurn, gameNumber]);
 
   // functions for game logic
   const handleClick = (index: number) => {
@@ -173,14 +179,27 @@ const Game = ({
 
   // tsx component
   return (
-    <div className="flex flex-col gap-10">
-      <div className="">
+    <div className="flex flex-col gap-5">
+      <div className="p-5">
         <TimeCounter running={!paused && turn} time={time} setTime={setTime} />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <div
+        className={`grid gap-2 grid-cols-[repeat(6,minmax(30px,150px))] ${
+          boardSize === 0
+            ? "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3 "
+            : boardSize === 1
+            ? "max-[515px]:grid-cols-6 max-[400px]:grid-cols-3"
+            : "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3"
+        }`}
+      >
         {gameModel.map((model, idx) => {
           return (
-            <motion.div key={model.key} className="row w-fit" layout transition={{type: "spring", duration: 1, bounce: 0.1}}>
+            <motion.div
+              key={model.key}
+              className="row w-fit"
+              layout
+              transition={{ type: "spring", duration: 1, bounce: 0.1 }}
+            >
               <GameCard
                 index={idx}
                 item={model.item}

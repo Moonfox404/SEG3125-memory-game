@@ -23,10 +23,10 @@ export default function Home() {
   const [highScore, setHighScore] = useHighScore();
   const [theme, setTheme] = useDarkMode();
 
-  const [gameNumber, setGameNumber] = useState(0);  // counter incremented to reset game
+  const [gameNumber, setGameNumber] = useState(0); // counter incremented to reset game
 
   const [currentGameSetting, setCurrentGameSetting] = useState<
-    "Theme" | "Gameplay" | null
+    "Theme" | "Gameplay" | "Menu" | null
   >(null);
 
   function resetGameState() {
@@ -38,6 +38,7 @@ export default function Home() {
     setPause(true);
     setGameScore(score);
     setHighScore(highScore);
+    console.log("setting highscore to ", highScore);
     openResultModal();
   }
 
@@ -48,16 +49,21 @@ export default function Home() {
 
   const [isGameModalOpen, setIsGameModalOpen] = useState(false);
 
-  function openGameModal(setting: "Theme" | "Gameplay") {
+  function openGameModal(setting: "Theme" | "Gameplay" | "Menu") {
     setCurrentGameSetting(setting);
     setPause(true);
     setIsGameModalOpen(true);
   }
   return (
-    <div>
-      <NavBar setGameState={setGameState} theme={theme} setTheme={setTheme}/>
-      <section className="min-w-screen min-h-screen flex p-5 ">
-        <div className="w-screen min-h-[50vh] flex flex-col justify-center items-center">
+    <div className="w-screen min-h-screen flex flex-col">
+      <NavBar
+        setGameState={setGameState}
+        theme={theme}
+        setTheme={setTheme}
+        openMenu={() => openGameModal("Menu")}
+      />
+      <section className="w-full h-full flex p-5 grow justify-center items-center">
+        <div className="w-fit h-fit">
           {!gameState ? (
             <GameMenu
               boardSize={boardSize}
@@ -72,7 +78,7 @@ export default function Home() {
               }}
             />
           ) : (
-            <div>
+            <div className="w-full h-full flex justify-center items-center flex-col p-5">
               <Game
                 theme={gameTheme}
                 dark={theme === "dark"}
@@ -81,8 +87,10 @@ export default function Home() {
                 paused={pause}
                 handleGameEnd={handleGameEnd}
                 gameNumber={gameNumber}
+                highScore={highScore ?? 0}
+                setHighScore={setHighScore}
               />
-              <div className="w-full flex justify-center p-10">
+              <div className="w-full flex justify-center p-5">
                 <GameBar
                   pause={pause}
                   setPause={(pause: boolean) => setPause(pause)}
@@ -102,6 +110,7 @@ export default function Home() {
         gameScore={gameScore}
         resetGameState={resetGameState}
         setPause={setPause}
+        highScore={highScore}
       />
 
       <GameModal

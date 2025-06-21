@@ -26,8 +26,8 @@ const GameBar = ({
       self-center            
       mt-auto                
       flex flex-row
-      min-[440px]:min-w-[430px]
-      max-[440px]:flex-col
+      min-[515px]:min-w-[430px]
+      max-[515px]:flex-col
       gap-10 w-fit p-5 rounded-xl
       bg-base shadow-md text-primary
       dark:shadow-[0_0_8px_rgba(166,182,255,1),0_0_20px_rgba(166,182,255,0.2),0_0_30px_rgba(166,182,255,0.1)]
