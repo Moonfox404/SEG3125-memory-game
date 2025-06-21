@@ -255,7 +255,7 @@ const Game = ({
                           transition={{ type: "spring", duration: 1, bounce: 0.1 }}
                         >
                           <GameCard
-                            index={idx}
+                            index={idx + 6 * value}
                             item={model.item}
                             state={model.state}
                             theme={theme}
