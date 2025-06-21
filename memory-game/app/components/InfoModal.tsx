@@ -1,13 +1,29 @@
-const InfoModal = () => {
+import React from "react";
+
+type InfoModalProps = {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+};
+
+const InfoModal = ({ isOpen, setIsOpen }: InfoModalProps) => {
+  if (!isOpen) return null;
+
   return (
-    <dialog id="info_modal" className="modal">
-      <div className="modal-box w-11/12 max-w-5xl">
-        <div className="max-w-xl md:max-w-3xl mx-auto my-8 p-4 sm:p-6 bg-base-100 flex flex-col gap-3">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
+    <div
+      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center animate-fade-in"
+      onClick={() => setIsOpen(false)}
+    >
+      <div
+        className="bg-base-100 dark:bg-base-200 p-6 rounded-2xl shadow-xl w-11/12 max-w-5xl max-h-[90vh] overflow-y-auto animate-fade-in"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="max-w-xl md:max-w-3xl mx-auto my-4 sm:my-6 bg-transparent flex flex-col gap-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary">
             How to Play
           </h2>
 
-          <div className="mb-6">
+          {/* Objective */}
+          <section>
             <h3 className="text-2xl font-semibold text-primary mb-2">
               Objective
             </h3>
@@ -16,9 +32,10 @@ const InfoModal = () => {
               the board is cleared. Matches remove cups and earn you points;
               mismatches may trigger surprise swaps if enabled.
             </p>
-          </div>
+          </section>
 
-          <div className="mb-6">
+          {/* Getting Started */}
+          <section>
             <h3 className="text-2xl font-semibold text-primary mb-2">
               Getting Started
             </h3>
@@ -28,7 +45,7 @@ const InfoModal = () => {
                 Select Your Settings:
                 <ul className="list-disc list-inside mt-1 ml-5 space-y-1">
                   <li>
-                    <strong>Board Size:</strong> Small (2x6), Medium (3×6),
+                    <strong>Board Size:</strong> Small (2×6), Medium (3×6),
                     Large (4×6)
                   </li>
                   <li>
@@ -40,9 +57,10 @@ const InfoModal = () => {
                 </ul>
               </li>
             </ol>
-          </div>
+          </section>
 
-          <div className="mb-6">
+          {/* Controls */}
+          <section>
             <h3 className="text-2xl font-semibold text-primary mb-2">
               Controls
             </h3>
@@ -52,9 +70,10 @@ const InfoModal = () => {
                 Tap a second cup to reveal its object and check for a match.
               </li>
             </ul>
-          </div>
+          </section>
 
-          <div className="mb-6">
+          {/* Gameplay Rules */}
+          <section>
             <h3 className="text-2xl font-semibold text-primary mb-2">
               Gameplay Rules
             </h3>
@@ -69,9 +88,10 @@ const InfoModal = () => {
               </li>
               <li>Continue flipping until all cups are removed.</li>
             </ol>
-          </div>
+          </section>
 
-          <div className="mb-6">
+          {/* Scoring & Results */}
+          <section>
             <h3 className="text-2xl font-semibold text-primary mb-2">
               Scoring &amp; Results
             </h3>
@@ -79,9 +99,10 @@ const InfoModal = () => {
               After you win, view your <strong>current score</strong> and{" "}
               <strong>highest score</strong>.
             </p>
-          </div>
+          </section>
 
-          <div className="mb-6">
+          {/* Winning the Game */}
+          <section>
             <h3 className="text-2xl font-semibold text-primary mb-2">
               Winning the Game
             </h3>
@@ -90,9 +111,10 @@ const InfoModal = () => {
               breakdown and options to <strong>Play Again</strong> or{" "}
               <strong>Return to Menu</strong>.
             </p>
-          </div>
+          </section>
 
-          <div>
+          {/* Tips & Strategies */}
+          <section>
             <h3 className="text-2xl font-semibold text-primary mb-2">
               Tips &amp; Strategies
             </h3>
@@ -106,16 +128,19 @@ const InfoModal = () => {
               <li>Reduce mistakes for higher scores—accuracy trumps speed.</li>
               <li>Challenge friends by sharing your high score.</li>
             </ul>
-          </div>
+          </section>
         </div>
 
-        <div className="modal-action">
-          <form method="dialog">
-            <button className="btn">Close</button>
-          </form>
+        <div className="flex justify-center mt-4">
+          <button
+            className="px-5 py-2 bg-primary text-primary-content rounded-lg hover:opacity-90 transition"
+            onClick={() => setIsOpen(false)}
+          >
+            Close
+          </button>
         </div>
       </div>
-    </dialog>
+    </div>
   );
 };
 

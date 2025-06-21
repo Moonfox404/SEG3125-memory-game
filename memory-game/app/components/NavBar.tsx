@@ -9,6 +9,7 @@ type NavBarProps = {
   theme: string;
   setTheme: Dispatch<string>;
   openMenu: () => void;
+  setOpenInfo: (open: boolean) => void;
 };
 
 const NavBar = ({
@@ -17,6 +18,7 @@ const NavBar = ({
   setGameState,
   theme,
   setTheme,
+  setOpenInfo,
 }: NavBarProps) => {
   return (
     <div>
@@ -49,11 +51,7 @@ const NavBar = ({
             <li>
               <button
                 className="h-full flex items-center"
-                onClick={() =>
-                  (
-                    document.getElementById("info_modal")! as HTMLDialogElement
-                  ).showModal()
-                }
+                onClick={() => setOpenInfo(true)}
               >
                 {" "}
                 <FontAwesomeIcon icon={faCircleQuestion} />

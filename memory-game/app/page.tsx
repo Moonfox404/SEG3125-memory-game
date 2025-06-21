@@ -29,6 +29,8 @@ export default function Home() {
     "Theme" | "Gameplay" | "Menu" | null
   >(null);
 
+  const [openInfo, setOpenInfo] = useState(false);
+
   function resetGameState() {
     setGameScore(0);
     setGameNumber(gameNumber + 1);
@@ -62,6 +64,7 @@ export default function Home() {
         theme={theme}
         setTheme={setTheme}
         openMenu={() => openGameModal("Menu")}
+        setOpenInfo={setOpenInfo}
       />
       <section className="w-full h-full flex p-5 grow justify-center items-center">
         <div className="w-fit h-fit">
@@ -104,7 +107,7 @@ export default function Home() {
         </div>
       </section>
 
-      <InfoModal />
+      <InfoModal isOpen={openInfo} setIsOpen={setOpenInfo} />
 
       <ResultModal
         setGameState={setGameState}
