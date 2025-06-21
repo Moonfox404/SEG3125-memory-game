@@ -26,13 +26,13 @@ const GameImgWithReveal = ({ item, theme, dark }: GameImgProps) => {
   return (
     <div className="grid">
       <motion.div
-        className="col-start-1 row-start-1 z-2"
+        className="col-start-1 row-start-1"
         initial={{ y: 0 }}
         animate={{ y: "clamp(-100px, -9.8vw, -55px)" }}
       >
         <img src={"./cup-trans-" + (dark ? "dark" : "light") + ".PNG"} />
       </motion.div>
-      <div className="col-start-1 row-start-1 z-1">
+      <div className="col-start-1 row-start-1">
         <GameImg item={item} theme={theme} dark={dark} />
       </div>
     </div>
