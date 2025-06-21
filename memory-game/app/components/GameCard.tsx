@@ -55,7 +55,7 @@ const GameCard = ({
   };
 
   return (
-    <div
+    <button
       className="w-full h-full 
              flex items-center justify-center"
       onClick={() => {
@@ -69,7 +69,7 @@ const GameCard = ({
       ) : (
         <GameImgWithReveal item={item} theme={theme} dark={dark} />
       )}
-    </div>
+    </button>
   );
 };
 

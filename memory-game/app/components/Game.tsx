@@ -51,10 +51,11 @@ const Game = ({
   const [cardsMatched, setCardsMatched] = useState(0);
   const [moves, setMoves] = useState(0);
   const revealedCards = useRef<number[]>([]);
-
   const [gameModel, setGameModel] = useState<GameCardModel[]>([]);
-
   const activeIndices = useRef<Set<number>>(new Set());
+
+  // rendering state
+  const [render3d, setRender3d] = useState(false);
 
   useEffect(() => {
     // reset state
@@ -76,6 +77,13 @@ const Game = ({
       Array.from({ length: resetModel.length }, (_, i) => i)
     );
   }, [numCards, swapsPerTurn, gameNumber]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1440px");
+    console.log(mq.matches);
+    setRender3d(mq.matches);
+    mq.addEventListener("change", (evt) => { setRender3d(evt.matches) });
+  }, []);
 
   // functions for game logic
   const handleClick = (index: number) => {
@@ -196,35 +204,74 @@ const Game = ({
           <p>{Number.isNaN(highScore) ? "_ _" : highScore}</p>
         </div>
       </div>
-      <div
-        className={`grid gap-2 grid-cols-[repeat(6,minmax(30px,150px))] ${boardSize === 0
-            ? "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3 "
+      {
+        !render3d ?
+          <div
+            className={`grid gap-2 grid-cols-[repeat(6,minmax(30px,150px))] ${boardSize === 0
+              ? "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3 "
+              : boardSize === 1
+                ? "max-[515px]:grid-cols-6 max-[400px]:grid-cols-3"
+                : "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3"
+              }`}
+          >
+            {gameModel.map((model, idx) => {
+              return (
+                <motion.div
+                  key={model.key}
+                  className="row w-fit"
+                  layout
+                  transition={{ type: "spring", duration: 1, bounce: 0.1 }}
+                >
+                  <GameCard
+                    index={idx}
+                    item={model.item}
+                    state={model.state}
+                    theme={theme}
+                    dark={dark}
+                    disabled={paused || !turn}
+                    onClick={handleClick}
+                  />
+                </motion.div>
+              );
+            })}
+          </div>
+          :
+          <div className={`grid gap-2 ${boardSize === 0
+            ? "grid-cols-13"
             : boardSize === 1
-              ? "max-[515px]:grid-cols-6 max-[400px]:grid-cols-3"
-              : "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3"
-          }`}
-      >
-        {gameModel.map((model, idx) => {
-          return (
-            <motion.div
-              key={model.key}
-              className="row w-fit"
-              layout
-              transition={{ type: "spring", duration: 1, bounce: 0.1 }}
-            >
-              <GameCard
-                index={idx}
-                item={model.item}
-                state={model.state}
-                theme={theme}
-                dark={dark}
-                disabled={paused || !turn}
-                onClick={handleClick}
-              />
-            </motion.div>
-          );
-        })}
-      </div>
+              ? "grid-cols-14"
+              : "grid-cols-15"
+            }`}>
+            {
+              Array.from({ length: boardHeight }, (_, i) => i).map((value) => {
+                return (
+                  <div className={`row col-span-12 row-span-2 ${value === 0 ? "col-start-1 row-start-1" : value === 1 ? "col-start-2 row-start-2" : value === 2 ? "col-start-3 row-start-3" : "col-start-4 row-start-4"} grid gap-2 grid-cols-6`}>
+                    {gameModel.slice(value * 6, (value + 1) * 6).map((model, idx) => {
+                      return (
+                        <motion.div
+                          key={model.key}
+                          className="row w-fit"
+                          layout
+                          transition={{ type: "spring", duration: 1, bounce: 0.1 }}
+                        >
+                          <GameCard
+                            index={idx}
+                            item={model.item}
+                            state={model.state}
+                            theme={theme}
+                            dark={dark}
+                            disabled={paused || !turn}
+                            onClick={handleClick}
+                          />
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                )
+              })
+            }
+          </div>
+      }
     </div>
   );
 };
