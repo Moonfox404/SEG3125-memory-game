@@ -27,7 +27,6 @@ const GameBar = ({
       mt-auto                
       flex flex-row
       min-[515px]:min-w-[430px]
-      max-[515px]:flex-col
       gap-10 w-fit p-5 rounded-xl
       bg-base shadow-md text-primary
       dark:shadow-[0_0_8px_rgba(166,182,255,1),0_0_20px_rgba(166,182,255,0.2),0_0_30px_rgba(166,182,255,0.1)]
@@ -39,7 +38,7 @@ const GameBar = ({
         onClick={onOpenTheme}
       >
         <FontAwesomeIcon icon={faPalette} />
-        <h1>Theme</h1>
+        <h1 className="hidden min-[516px]:inline">Theme</h1>
       </div>
 
       <div
@@ -47,7 +46,7 @@ const GameBar = ({
         onClick={onOpenGameplay}
       >
         <FontAwesomeIcon icon={faPuzzlePiece} />
-        <h1>Gameplay</h1>
+        <h1 className="hidden min-[516px]:inline">Gameplay</h1>
       </div>
 
       <div
@@ -59,12 +58,12 @@ const GameBar = ({
         {!pause ? (
           <>
             <FontAwesomeIcon icon={faPause} />
-            <h1>Pause Game</h1>
+            <h1 className="hidden min-[516px]:inline">Pause Game</h1>
           </>
         ) : (
           <>
             <FontAwesomeIcon icon={faPlay} />
-            <h1>Resume Game</h1>
+            <h1 className="hidden min-[516px]:inline">Resume Game</h1>
           </>
         )}
       </div>

@@ -4,13 +4,20 @@ import ThemeToggle from "./ThemeToggle";
 import { Dispatch } from "react";
 
 type NavBarProps = {
+  gameState: boolean;
   setGameState: (state: boolean) => void;
   theme: string;
   setTheme: Dispatch<string>;
   openMenu: () => void;
 };
 
-const NavBar = ({ openMenu, setGameState, theme, setTheme }: NavBarProps) => {
+const NavBar = ({
+  openMenu,
+  gameState,
+  setGameState,
+  theme,
+  setTheme,
+}: NavBarProps) => {
   return (
     <div>
       <div className="navbar bg-base shadow-sm">
@@ -30,7 +37,11 @@ const NavBar = ({ openMenu, setGameState, theme, setTheme }: NavBarProps) => {
             <li>
               <button
                 className="h-full flex items-center"
-                onClick={() => openMenu()}
+                onClick={() => {
+                  if (gameState) {
+                    openMenu();
+                  }
+                }}
               >
                 <FontAwesomeIcon icon={faSliders} />
               </button>
