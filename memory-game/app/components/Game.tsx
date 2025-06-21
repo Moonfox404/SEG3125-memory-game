@@ -174,16 +174,16 @@ const Game = ({
   // tsx component
   return (
     <div className="flex flex-col gap-10">
-      <div className="grid grid-cols-3 md:grid-cols-6 xl:grid-cols-8">
-        <div className="col flex">
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+        <div className="col flex justify-center md:justify-start">
           <p className="mr-2">Time:</p>
           <TimeCounter running={!paused && turn} time={time} setTime={setTime} />
         </div>
-        <div className="col flex">
+        <div className="col flex justify-center md:justify-start">
           <p className="mr-2">Moves:</p>
           <p>{moves}</p>
         </div>
-        <div className="col md:col-start-6 xl:col-start-8 flex justify-end">
+        <div className="col flex justify-center md:justify-end md:col-start-4 lg:col-start-6 xl:col-start-8">
           <p className="mr-2">High Score:</p>
           <p>{Number.isNaN(highScore) ? "_ _" : highScore}</p>
         </div>
