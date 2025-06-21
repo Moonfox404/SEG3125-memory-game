@@ -107,18 +107,20 @@ const Game = ({
       gameModel[revealedCards.current[1]].item
     ) {
       // match
-      const newTilesMatched = cardsMatched + 2;
-      if (newTilesMatched === numCards) {
-        // game won
-        handleGameCompletion();
-      }
+      setTimeout(() => {
+        const newTilesMatched = cardsMatched + 2;
+        if (newTilesMatched === numCards) {
+          // game won
+          handleGameCompletion();
+        }
 
-      activeIndices.current.delete(revealedCards.current[0]);
-      activeIndices.current.delete(revealedCards.current[1]);
+        activeIndices.current.delete(revealedCards.current[0]);
+        activeIndices.current.delete(revealedCards.current[1]);
 
-      setCardsMatched(newTilesMatched);
-      updateModel("matched");
-      setTurn(true);
+        setCardsMatched(newTilesMatched);
+        updateModel("matched");
+        setTurn(true);
+      }, 500);
     } else {
       // no match
       setTimeout(() => {
@@ -195,13 +197,12 @@ const Game = ({
         </div>
       </div>
       <div
-        className={`grid gap-2 grid-cols-[repeat(6,minmax(30px,150px))] ${
-          boardSize === 0
+        className={`grid gap-2 grid-cols-[repeat(6,minmax(30px,150px))] ${boardSize === 0
             ? "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3 "
             : boardSize === 1
-            ? "max-[515px]:grid-cols-6 max-[400px]:grid-cols-3"
-            : "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3"
-        }`}
+              ? "max-[515px]:grid-cols-6 max-[400px]:grid-cols-3"
+              : "max-[515px]:grid-cols-4 max-[400px]:grid-cols-3"
+          }`}
       >
         {gameModel.map((model, idx) => {
           return (
