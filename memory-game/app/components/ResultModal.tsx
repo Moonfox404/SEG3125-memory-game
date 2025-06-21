@@ -6,15 +6,15 @@ type ResultModal = {
   setGameState: (state: boolean) => void;
   resetGameState: () => void;
   gameScore: number;
+  highScore: number | undefined;
 };
 const ResultModal = ({
   setPause,
   setGameState,
   resetGameState,
   gameScore,
+  highScore,
 }: ResultModal) => {
-  const [highScore, setHighScore] = useHighScore();
-
   function closeResultModal() {
     const chk = document.getElementById("result_modal");
     if (chk) (chk as HTMLInputElement).checked = false; // closes

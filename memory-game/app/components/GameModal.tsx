@@ -4,7 +4,7 @@ type GameModalProp = {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   setPause: (pause: boolean) => void;
-  currentGameSetting: "Theme" | "Gameplay" | null;
+  currentGameSetting: "Theme" | "Gameplay" | "Menu" | null;
   setCurrentGameSetting: (setting: "Theme" | "Gameplay" | null) => void;
   gameTheme?: "fruit" | "animal" | "heart";
   setGameTheme?: (theme: "fruit" | "animal" | "heart") => void;
@@ -27,10 +27,6 @@ const GameModal = ({
   swapsPerTurn,
   setSwapsPerTurn,
 }: GameModalProp) => {
-  function closeGameModal() {
-    const chk = document.getElementById("game_modal");
-    if (chk) (chk as HTMLInputElement).checked = false; // closes
-  }
   return (
     <>
       <input
@@ -47,8 +43,17 @@ const GameModal = ({
         >
           {currentGameSetting === "Theme" ? (
             <GameMenu gameTheme={gameTheme} setGameTheme={setGameTheme} />
-          ) : currentGameSetting ? (
+          ) : currentGameSetting === "Gameplay" ? (
             <GameMenu
+              swapsPerTurn={swapsPerTurn}
+              setSwapsPerTurn={setSwapsPerTurn}
+              boardSize={boardSize}
+              setBoardSize={setBoardSize}
+            />
+          ) : currentGameSetting === "Menu" ? (
+            <GameMenu
+              gameTheme={gameTheme}
+              setGameTheme={setGameTheme}
               swapsPerTurn={swapsPerTurn}
               setSwapsPerTurn={setSwapsPerTurn}
               boardSize={boardSize}
@@ -64,7 +69,9 @@ const GameModal = ({
                 setPause(false);
               }}
             >
-              Save & Continue
+              {currentGameSetting === "Menu"
+                ? "Restart Game"
+                : "Save & Continue"}
             </button>
           </div>
         </div>

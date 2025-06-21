@@ -6,10 +6,11 @@ import { Dispatch } from "react";
 type NavBarProps = {
   setGameState: (state: boolean) => void;
   theme: string;
-  setTheme: Dispatch<string>
+  setTheme: Dispatch<string>;
+  openMenu: () => void;
 };
 
-const NavBar = ({ setGameState, theme, setTheme }: NavBarProps) => {
+const NavBar = ({ openMenu, setGameState, theme, setTheme }: NavBarProps) => {
   return (
     <div>
       <div className="navbar bg-base shadow-sm">
@@ -24,12 +25,15 @@ const NavBar = ({ setGameState, theme, setTheme }: NavBarProps) => {
         <div className="flex-none text-primary">
           <ul className="menu menu-horizontal px-1">
             <li className="">
-              <ThemeToggle theme={theme} setTheme={setTheme}/>
+              <ThemeToggle theme={theme} setTheme={setTheme} />
             </li>
             <li>
-              <a className="h-full flex items-center">
+              <button
+                className="h-full flex items-center"
+                onClick={() => openMenu()}
+              >
                 <FontAwesomeIcon icon={faSliders} />
-              </a>
+              </button>
             </li>
             <li>
               <button
