@@ -243,31 +243,29 @@ const Game = ({
               : "grid-cols-15"
             }`}>
             {
-              Array.from({ length: boardHeight }, (_, i) => i).map((value) => {
+              gameModel.map((model, idx) => {
                 return (
-                  <div className={`row col-span-12 row-span-2 ${value === 0 ? "col-start-1 row-start-1" : value === 1 ? "col-start-2 row-start-2" : value === 2 ? "col-start-3 row-start-3" : "col-start-4 row-start-4"} grid gap-2 grid-cols-6`}>
-                    {gameModel.slice(value * 6, (value + 1) * 6).map((model, idx) => {
-                      return (
-                        <motion.div
-                          key={model.key}
-                          className="row w-fit"
-                          layout
-                          transition={{ type: "spring", duration: 1, bounce: 0.1 }}
-                        >
-                          <GameCard
-                            index={idx + 6 * value}
-                            item={model.item}
-                            state={model.state}
-                            theme={theme}
-                            dark={dark}
-                            disabled={paused || !turn}
-                            onClick={handleClick}
-                          />
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                )
+                  <motion.div
+                    key={model.key}
+                    className="row col-span-2 row-span-2 w-fit"
+                    style={{
+                      gridColumnStart: (Math.floor(idx / 6) + 1) + 2 * (idx % 6),
+                      gridRowStart: Math.floor(idx / 6) + 1
+                    }}
+                    layout
+                    transition={{ type: "spring", duration: 1, bounce: 0.1 }}
+                  >
+                    <GameCard
+                      index={idx}
+                      item={model.item}
+                      state={model.state}
+                      theme={theme}
+                      dark={dark}
+                      disabled={paused || !turn}
+                      onClick={handleClick}
+                    />
+                  </motion.div>
+                );
               })
             }
           </div>
