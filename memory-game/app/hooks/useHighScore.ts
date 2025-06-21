@@ -1,7 +1,7 @@
 import { Dispatch, useEffect, useState } from "react";
 
-const useHighScore: () => [number | undefined, Dispatch<number | undefined>] = () => {
-  const [highScore, setHighScore] = useState<number | undefined>();
+const useHighScore: () => [number, Dispatch<number>] = () => {
+  const [highScore, setHighScore] = useState<number>();
 
   useEffect(() => {
     if (!highScore) {
@@ -16,7 +16,7 @@ const useHighScore: () => [number | undefined, Dispatch<number | undefined>] = (
     localStorage.setItem("highScore", String(highScore))
   }, [highScore])
 
-  return [highScore, setHighScore];
+  return [highScore ?? NaN, setHighScore];
 }
 
 export default useHighScore;

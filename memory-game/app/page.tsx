@@ -87,7 +87,7 @@ export default function Home() {
                 paused={pause}
                 handleGameEnd={handleGameEnd}
                 gameNumber={gameNumber}
-                highScore={highScore ?? 0}
+                highScore={highScore}
                 setHighScore={setHighScore}
               />
               <div className="w-full flex justify-center p-5">
