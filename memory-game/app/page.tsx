@@ -57,6 +57,7 @@ export default function Home() {
   return (
     <div className="w-screen min-h-screen flex flex-col">
       <NavBar
+        gameState={gameState}
         setGameState={setGameState}
         theme={theme}
         setTheme={setTheme}
