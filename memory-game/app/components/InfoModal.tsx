@@ -28,8 +28,8 @@ const InfoModal = () => {
                 Select Your Settings:
                 <ul className="list-disc list-inside mt-1 ml-5 space-y-1">
                   <li>
-                    <strong>Board Size:</strong> Small (4×4), Medium (5×6),
-                    Large (6×6)
+                    <strong>Board Size:</strong> Small (2x6), Medium (3×6),
+                    Large (4×6)
                   </li>
                   <li>
                     <strong>Swaps per Turn:</strong> 0, 1, 2
@@ -61,7 +61,7 @@ const InfoModal = () => {
             <ol className="list-decimal list-inside text-base-content space-y-2 md:space-y-3">
               <li>
                 If objects match, cups are removed and you earn{" "}
-                <strong>10 points</strong>.
+                <strong>points</strong>.
               </li>
               <li>
                 If objects don’t match, cups flip back. If swaps are enabled,
