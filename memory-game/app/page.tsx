@@ -30,6 +30,7 @@ export default function Home() {
   >(null);
 
   const [openInfo, setOpenInfo] = useState(false);
+  const [openResult, setOpenResult] = useState(false);
 
   function resetGameState() {
     setGameScore(0);
@@ -40,13 +41,7 @@ export default function Home() {
     setPause(true);
     setGameScore(score);
     setHighScore(highScore);
-    console.log("setting highscore to ", highScore);
-    openResultModal();
-  }
-
-  function openResultModal() {
-    const chk = document.getElementById("result_modal");
-    if (chk) (chk as HTMLInputElement).checked = true; // opens
+    setOpenResult(true);
   }
 
   const [isGameModalOpen, setIsGameModalOpen] = useState(false);
@@ -115,6 +110,8 @@ export default function Home() {
         resetGameState={resetGameState}
         setPause={setPause}
         highScore={highScore}
+        isOpen={openResult}
+        setIsOpen={setOpenResult}
       />
 
       <GameModal
