@@ -1,61 +1,61 @@
-import useHighScore from "../hooks/useHighScore";
+import React from "react";
 import ResultCard from "./ResultCard";
 
-type ResultModal = {
+type ResultModalProps = {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
   setPause: (pause: boolean) => void;
   setGameState: (state: boolean) => void;
   resetGameState: () => void;
   gameScore: number;
   highScore: number | undefined;
 };
+
 const ResultModal = ({
+  isOpen,
+  setIsOpen,
   setPause,
   setGameState,
   resetGameState,
   gameScore,
   highScore,
-}: ResultModal) => {
-  function closeResultModal() {
-    const chk = document.getElementById("result_modal");
-    if (chk) (chk as HTMLInputElement).checked = false; // closes
-  }
+}: ResultModalProps) => {
+  if (!isOpen) return null;
+
+  const handleClose = () => setIsOpen(false);
+
   return (
-    <>
-      <input type="checkbox" id="result_modal" className="modal-toggle" />
-      <div className="modal" role="dialog">
-        <div
-          className="modal-box flex justify-center items-center flex-col gap-5 shadow-md
-    dark:shadow-[0_0_8px_rgba(166,182,255,1),0_0_20px_rgba(166,182,255,0.2),0_0_30px_rgba(166,182,255,0.1)] rounded-xl"
-        >
-          <ResultCard score={gameScore} highScore={highScore ?? gameScore} />
-          <div className="modal-action flex justify-center align-center flex-row ">
-            <button
-              className="btn"
-              onClick={() => {
-                resetGameState();
-                setGameState(false);
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center animate-fade-in">
+      <div
+        className="bg-base-100 dark:bg-base-200 p-6 dark:shadow-[0_0_8px_rgba(166,182,255,1),0_0_20px_rgba(166,182,255,0.2),0_0_30px_rgba(166,182,255,0.1)] rounded-xl shadow-md flex flex-col gap-5 w-[90%] max-w-md animate-fade-in justify-center items-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <ResultCard score={gameScore} highScore={highScore ?? gameScore} />
 
-                closeResultModal();
-              }}
-            >
-              Main Menu
-            </button>
-            <button
-              className="btn"
-              onClick={() => {
-                resetGameState();
-
-                closeResultModal();
-                setPause(false);
-              }}
-            >
-              New Game
-            </button>
-          </div>
+        <div className="flex justify-center gap-4 mt-4">
+          <button
+            className="px-5 py-2 btn"
+            onClick={() => {
+              resetGameState();
+              setGameState(false);
+              handleClose();
+            }}
+          >
+            Main Menu
+          </button>
+          <button
+            className="px-5 py-2 btn"
+            onClick={() => {
+              resetGameState();
+              setPause(false);
+              handleClose();
+            }}
+          >
+            New Game
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
-
 export default ResultModal;
