@@ -25,7 +25,7 @@ const ResultModal = ({
   const handleClose = () => setIsOpen(false);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center animate-fade-in">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center animate-fade-in overflow-scroll">
       <div
         className="bg-base-100 dark:bg-base-200 p-6 dark:shadow-[0_0_8px_rgba(166,182,255,1),0_0_20px_rgba(166,182,255,0.2),0_0_30px_rgba(166,182,255,0.1)] rounded-xl shadow-md flex flex-col gap-5 w-[90%] max-w-md animate-fade-in justify-center items-center"
         onClick={(e) => e.stopPropagation()}

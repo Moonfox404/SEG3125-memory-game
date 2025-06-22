@@ -10,7 +10,7 @@ const InfoModal = ({ isOpen, setIsOpen }: InfoModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center animate-fade-in"
+      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center animate-fade-in overflow-scroll"
       onClick={() => setIsOpen(false)}
     >
       <div

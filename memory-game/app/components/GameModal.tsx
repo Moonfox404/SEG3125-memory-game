@@ -30,7 +30,7 @@ function GameModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 animate-fade-in overflow-scroll p-2">
       <div
         className="bg-base-100 p-6 shadow-xl flex flex-col gap-5 w-[90%] max-w-md justify-center items-center
     dark:shadow-[0_0_8px_rgba(166,182,255,1),0_0_20px_rgba(166,182,255,0.2),0_0_30px_rgba(166,182,255,0.1)] rounded-xl animate-fade-in"
